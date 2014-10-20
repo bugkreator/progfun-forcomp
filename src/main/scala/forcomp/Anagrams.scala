@@ -157,6 +157,31 @@ object Anagrams {
    *
    *  Note: There is only one anagram of an empty sentence.
    */
-  def sentenceAnagrams(sentence: Sentence): List[Sentence] = ???
+
+  lazy val fullDictionaryByOccurrences = dictionaryByOccurrences.withDefaultValue(List())
+
+  def insertWordIntoAllSentencePositions(word: Word, sentence: Sentence) : List[Sentence] = {
+     (0 to sentence.length).toList.map( (i:Int) => sentence.take(i)++(word::sentence.drop(i))  )
+  }
+
+  def sentenceAnagramsHelper(occurrences: Occurrences): List[Sentence] = {
+     if (occurrences.isEmpty) List(List())
+     else {
+        val subsets = combinations(occurrences)
+        (for (
+           subset <- subsets;
+           wordWithOccurrenceSubset <- fullDictionaryByOccurrences(subset);
+           anagram <- sentenceAnagramsHelper(subtract(occurrences, subset))
+        ) yield insertWordIntoAllSentencePositions(wordWithOccurrenceSubset, anagram)).toList.flatten
+     }
+  }
+
+
+  def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
+     val occurrences = sentenceOccurrences(sentence)
+
+      sentenceAnagramsHelper(occurrences)
+
+  }
 
 }
