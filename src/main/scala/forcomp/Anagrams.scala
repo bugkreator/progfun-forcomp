@@ -160,6 +160,7 @@ object Anagrams {
 
   lazy val fullDictionaryByOccurrences = dictionaryByOccurrences.withDefaultValue(List())
 
+  // inserd word in all len+1 possible positions of sentence
   def insertWordIntoAllSentencePositions(word: Word, sentence: Sentence) : List[Sentence] = {
      (0 to sentence.length).toList.map( (i:Int) => sentence.take(i)++(word::sentence.drop(i))  )
   }
@@ -179,9 +180,7 @@ object Anagrams {
 
   def sentenceAnagrams(sentence: Sentence): List[Sentence] = {
      val occurrences = sentenceOccurrences(sentence)
-
-      sentenceAnagramsHelper(occurrences)
-
+      sentenceAnagramsHelper(occurrences).distinct
   }
 
 }

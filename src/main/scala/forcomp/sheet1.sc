@@ -1,6 +1,6 @@
 import forcomp.Anagrams._
 object obj {
-   val sentence: Sentence = List("eat", "tea")
+   val sentence: Sentence = List("at", "at")
    val occurrences = sentenceOccurrences(sentence)
 
    /*val subsets = combinations(occurrences)
@@ -16,5 +16,5 @@ object obj {
 
 
 
-   sentenceAnagrams(sentence).foreach(println)
+   sentenceAnagrams(sentence)
 }
